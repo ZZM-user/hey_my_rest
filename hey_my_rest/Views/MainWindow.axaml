@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:hey_my_rest.Views"
         mc:Ignorable="d"
         d:DesignWidth="680"
-        d:DesignHeight="420"
+        d:DesignHeight="400"
         x:Class="hey_my_rest.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -23,56 +23,62 @@
     </Design.DataContext>
 
     <!-- 主布局 -->
-    <Border Background="#F0FAF5" CornerRadius="16" Padding="18">
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+<Border Background="#F0FAF5" CornerRadius="16" Padding="18">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
 
-            <!-- 标题 -->
-            <StackPanel Grid.Row="0" HorizontalAlignment="Center">
-                <TextBlock Text="用眼健康提醒" FontSize="24" FontWeight="Bold" Foreground="#2E8B57" HorizontalAlignment="Center"/>
-                <TextBlock Text="定时提醒你休息眼睛，保护视力~" FontSize="14" Foreground="#4F4F4F" HorizontalAlignment="Center" Margin="0,8,0,0"/>
-            </StackPanel>
+        <!-- 标题 -->
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+            <TextBlock Text="用眼健康提醒" FontSize="24" FontWeight="Bold" Foreground="#2E8B57"/>
+            <TextBlock Text="定时提醒你休息眼睛，保护视力~" FontSize="14" Foreground="#4F4F4F" Margin="0,8,0,0"/>
+        </StackPanel>
 
-            <!-- 配置项 -->
-            <Grid Grid.Row="1" Margin="0,24,0,0" ColumnDefinitions="Auto,*,Auto,*">
-                <TextBlock Grid.Column="0" Text="提醒间隔(分钟)：" VerticalAlignment="Center"/>
-                <NumericUpDown Grid.Column="1"
-                               Minimum="1"
-                               Maximum="300"
-                               Value="{Binding RemindInterval, Mode=TwoWay}"
-                               Margin="8,0,0,0"
-                               HorizontalContentAlignment="Center"/>
-                <TextBlock Grid.Column="2" Text="持续时间(秒)：" VerticalAlignment="Center" Margin="16,0,0,0"/>
-                <NumericUpDown Grid.Column="3"
-                               Minimum="3"
-                               Maximum="120"
-                               Value="{Binding RemindDuration, Mode=TwoWay}"
-                               Margin="8,0,0,0"
-                               HorizontalContentAlignment="Center"/>
-            </Grid>
-
-            <!-- 话术 -->
-            <Grid Grid.Row="2" Margin="0,24,0,0" ColumnDefinitions="Auto,*">
-                <TextBlock Grid.Column="0" Text="提醒话术：" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1"
-                         Margin="8,0,0,0"
-                         Watermark="自定义提醒话术..."
-                         Text="{Binding RemindText, Mode=TwoWay}"/>
-            </Grid>
-
-            <!-- 占位行（用于拉伸） -->
-            <Grid Grid.Row="1" />
-
-            <!-- 启动按钮 -->
-            <Button Grid.Row="3"
-                    Margin="0,20,0,0"
-                    Content="{Binding IsReminding, Converter={StaticResource BooleanToRemindTextConverter}}"
-                    Command="{Binding ToggleRemindCommand}"
-                    Background="#2E8B57"
-                    Foreground="White"
-                    FontWeight="Bold"
-                    Height="36"
-                    HorizontalContentAlignment="Center"
-                    HorizontalAlignment="Stretch"/>
+        <!-- 星期多选 -->
+        <Grid Grid.Row="1"  ColumnDefinitions="Auto,*" Margin="0,20,0,0">
+            <TextBlock Grid.Column="0" Text="提醒星期：" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <ItemsControl Grid.Column="1" ItemsSource="{Binding WeekDays}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ToggleButton Content="{Binding Name}" Margin="2,0"
+                                      IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
-    </Border>
+
+        <!-- 时间段 -->
+        <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto,*" Margin="0,16,0,0">
+
+            <TextBlock Grid.Column="0" Text="提醒时间段：" VerticalAlignment="Center"/>
+            <TimePicker Grid.Column="1" SelectedTime="{Binding StartTime, Mode=TwoWay}" />
+            <TextBlock Grid.Column="2" Text="至" Margin="0,0,16,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TimePicker Grid.Column="3" SelectedTime="{Binding EndTime, Mode=TwoWay}"/>
+        </Grid>
+
+        <!-- 间隔 & 持续时间 -->
+        <Grid Grid.Row="3" ColumnDefinitions="Auto,*,Auto,*" Margin="0,16,0,0">
+            <TextBlock Grid.Column="0" Text="提醒间隔(分钟)：" VerticalAlignment="Center"/>
+            <NumericUpDown Grid.Column="1" Minimum="1" Maximum="300" Value="{Binding RemindInterval, Mode=TwoWay}"/>
+            <TextBlock Grid.Column="2" Text="持续时间(秒)：" Margin="12,0,0,0" VerticalAlignment="Center"/>
+            <NumericUpDown Grid.Column="3" Minimum="3" Maximum="1000000" Value="{Binding RemindDuration, Mode=TwoWay}"/>
+        </Grid>
+
+        <!-- 话术 -->
+        <Grid Grid.Row="4" ColumnDefinitions="Auto,*" Margin="0,16,0,0">
+            <TextBlock Grid.Column="0" Text="提醒话术：" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Text="{Binding RemindText, Mode=TwoWay}" Watermark="自定义提醒话术..."/>
+        </Grid>
+
+        <!-- 启动按钮 -->
+        <Button Grid.Row="6" Margin="0,24,0,0"
+                Content="{Binding IsReminding, Converter={StaticResource BooleanToRemindTextConverter}}"
+                Command="{Binding ToggleRemindCommand}"
+                Background="#2E8B57" Foreground="White" FontWeight="Bold"
+                Height="36" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+    </Grid>
+</Border>
 </Window>

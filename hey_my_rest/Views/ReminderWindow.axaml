@@ -1,11 +1,12 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="hey_my_rest.Views.ReminderWindow"
-        Width="400" Height="200"
+        Width="600" Height="300"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
         ShowInTaskbar="False"
         Topmost="True"
+        SystemDecorations="None"
         Background="#F0FAF5"
         Title="用眼提醒">
     <Border CornerRadius="16" Background="#F0FAF5" Padding="24">
