@@ -1,4 +1,4 @@
-# hey_my_rest 护眼提醒应用
+# hey_my_rest 护眼提醒
 
 ## 项目简介
 
