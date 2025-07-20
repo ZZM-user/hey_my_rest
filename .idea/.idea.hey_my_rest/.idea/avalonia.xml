@@ -3,7 +3,9 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="hey_my_rest/App.axaml" value="hey_my_rest/hey_my_rest.csproj" />
         <entry key="hey_my_rest/Views/MainWindow.axaml" value="hey_my_rest/hey_my_rest.csproj" />
+        <entry key="hey_my_rest/Views/ReminderWindow.axaml" value="hey_my_rest/hey_my_rest.csproj" />
       </map>
     </option>
   </component>

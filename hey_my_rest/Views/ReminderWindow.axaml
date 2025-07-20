@@ -1,0 +1,17 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="hey_my_rest.Views.ReminderWindow"
+        Width="400" Height="200"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        ShowInTaskbar="False"
+        Topmost="True"
+        Background="#F0FAF5"
+        Title="用眼提醒">
+    <Border CornerRadius="16" Background="#F0FAF5" Padding="24">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="18">
+            <TextBlock x:Name="RemindTextBlock" Text="请休息一下，保护眼睛！" FontSize="28" FontWeight="Bold" Foreground="#2E8B57" TextAlignment="Center"/>
+            <TextBlock x:Name="AutoCloseTip" Text="本窗口将在几秒后自动关闭..." FontSize="14" Foreground="#4F4F4F" TextAlignment="Center"/>
+        </StackPanel>
+    </Border>
+</Window>

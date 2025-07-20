@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Timers;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -32,7 +32,7 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private bool isReminding;
 
-    private Timer? _timer;
+    private DispatcherTimer? _timer;
 
     public MainWindowViewModel()
     {
@@ -58,15 +58,12 @@ public partial class MainWindowViewModel : ObservableObject
         if (_timer != null)
         {
             _timer.Stop();
-            _timer.Dispose();
         }
-        _timer = new Timer(RemindInterval * 60 * 1000); // 转为毫秒
-        _timer.Elapsed += (s, e) => OnRemind();
-        _timer.AutoReset = true;
+        _timer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(RemindInterval) };
+        _timer.Tick += (s, e) => OnRemind();
         _timer.Start();
         IsReminding = true;
-        // 立即提醒一次
-        OnRemind();
+        // OnRemind(); // 删除立即提醒
     }
 
     // 停止提醒
@@ -75,7 +72,6 @@ public partial class MainWindowViewModel : ObservableObject
         if (_timer != null)
         {
             _timer.Stop();
-            _timer.Dispose();
             _timer = null;
         }
         IsReminding = false;
