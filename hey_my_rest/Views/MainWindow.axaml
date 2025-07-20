@@ -3,18 +3,48 @@
         xmlns:vm="using:hey_my_rest.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:local="clr-namespace:hey_my_rest.Views"
+        mc:Ignorable="d" d:DesignWidth="680" d:DesignHeight="420"
         x:Class="hey_my_rest.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="hey_my_rest">
+        Title="用眼健康提醒"
+        Width="680"
+        Height="420">
+
+    <Window.Resources>
+        <local:BooleanToRemindTextConverter x:Key="BooleanToRemindTextConverter" />
+    </Window.Resources>
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <!-- 主布局 -->
+    <Border Background="#F0FAF5" CornerRadius="16" Padding="24">
+        <StackPanel Spacing="18">
+            <TextBlock Text="用眼健康提醒" FontSize="24" FontWeight="Bold" Foreground="#2E8B57" HorizontalAlignment="Center"/>
+            <TextBlock Text="定时提醒你休息眼睛，保护视力~" FontSize="14" Foreground="#4F4F4F" HorizontalAlignment="Center"/>
 
+            <!-- 配置项区域 -->
+            <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                <TextBlock Text="提醒间隔(分钟)：" VerticalAlignment="Center"/>
+                <NumericUpDown Minimum="1" Maximum="180" Width="160" Value="{Binding RemindInterval, Mode=TwoWay}" HorizontalContentAlignment="Center"/>
+                <TextBlock Text="持续时间(秒)：" VerticalAlignment="Center" Margin="16,0,0,0"/>
+                <NumericUpDown Minimum="3" Maximum="120" Width="160" Value="{Binding RemindDuration, Mode=TwoWay}" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+
+            <!-- 话术选择 -->
+            <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                <TextBlock Text="提醒话术：" VerticalAlignment="Center"/>
+                <ComboBox ItemsSource="{Binding PresetTexts}" SelectedItem="{Binding RemindText, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
+            </StackPanel>
+            <TextBox Watermark="自定义提醒话术..." Text="{Binding RemindText, Mode=TwoWay}"/>
+
+            <!-- 开始/停止按钮 -->
+            <Button Content="{Binding IsReminding, Converter={StaticResource BooleanToRemindTextConverter}}"
+                    Command="{Binding ToggleRemindCommand}"
+                    Background="#2E8B57" Foreground="White" FontWeight="Bold" Height="32"/>
+        </StackPanel>
+    </Border>
 </Window>
