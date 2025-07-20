@@ -13,14 +13,10 @@ namespace hey_my_rest.Views
         {
             InitializeComponent();
             _secondsLeft = durationSeconds;
-            var remindTextBlock = this.FindControl<TextBlock>("RemindTextBlock");
-            var autoCloseTip = this.FindControl<TextBlock>("AutoCloseTip");
-            if (remindTextBlock != null)
-                remindTextBlock.Text = remindText;
-            if (autoCloseTip != null)
-                autoCloseTip.Text = $"本窗口将在 {_secondsLeft} 秒后自动关闭...";
+            RemindTextBlock.Text = remindText;
+            AutoCloseTip.Text = $"本窗口将在 {_secondsLeft} 秒后自动关闭...";
             // 启动动态倒计时
-            StartCountdown(autoCloseTip);
+            StartCountdown(AutoCloseTip);
         }
 
         private void StartCountdown(TextBlock? autoCloseTip)
